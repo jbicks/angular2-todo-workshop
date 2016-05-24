@@ -1,4 +1,6 @@
 import {Component} from '@angular/core';
+import {TodoModel} from '../../models/todo.model';
+import {TodoItemComponent} from '../todo-item/todo-item.component';
 
 @Component({
     selector: 'todos',
@@ -9,7 +11,9 @@ import {Component} from '@angular/core';
             <input class="new-todo" placeholder="What needs to be done?">
         </header>
         <section class="main">
-            
+            <ul class="todo-list">
+                <todo-item *ngFor="let todo of todos" [todo]="todo"></todo-item>
+            </ul>
         </section>
         <footer class="footer" *ngIf="count">
             <ul class="filters">
@@ -25,7 +29,27 @@ import {Component} from '@angular/core';
             </ul>
         </footer>
     </section>
-    `
+    `,
+    directives:[TodoItemComponent]
 })
 export class TodosComponent {
+    
+    todos:TodoModel[] = [
+        {
+            id: 1,
+            title: 'make cake',
+            completed: true
+        },
+        {
+            id: 2,
+            title: 'eat cake',
+            completed: false
+        },
+        {
+            id: 3,
+            title: 'make more cake',
+            completed: false
+        }
+    ];
+    
 }
