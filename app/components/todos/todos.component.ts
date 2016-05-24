@@ -2,15 +2,13 @@ import {Component} from '@angular/core';
 import {TodoModel} from '../../models/todo.model';
 import {TodoItemComponent} from '../todo-item/todo-item.component';
 import {TodoService} from '../../services/todo.service';
+import {TodoHeaderComponent} from '../todo-header/todo-header.component';
 
 @Component({
     selector: 'todos',
     template: `
     <section class="todoapp">
-        <header class="header">
-            <h1>Todos</h1>
-            <input class="new-todo" placeholder="What needs to be done?">
-        </header>
+        <todo-header (todo-added)="add($event)"></todo-header>
         <section class="main">
             <ul class="todo-list">
                 <todo-item *ngFor="let todo of getTodos()" [todo]="todo"></todo-item>
@@ -31,7 +29,7 @@ import {TodoService} from '../../services/todo.service';
         </footer>
     </section>
     `,
-    directives:[TodoItemComponent]
+    directives:[TodoItemComponent, TodoHeaderComponent]
 })
 export class TodosComponent {
     
@@ -42,4 +40,7 @@ export class TodosComponent {
         return this._todoService.getTodos();
     }
     
+    add(title:string) {
+        this._todoService.addTodo(title);
+    }
 }

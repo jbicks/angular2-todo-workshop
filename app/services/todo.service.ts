@@ -25,5 +25,9 @@ export class TodoService {
     getTodos(): TodoModel[] {
         return this._todos;
     }
-
+    
+    addTodo(title: string) {
+        var todo = new TodoModel(title);
+        this._todos.push(todo);
+    }
 }
