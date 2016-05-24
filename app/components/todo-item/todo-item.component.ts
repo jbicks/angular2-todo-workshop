@@ -6,7 +6,7 @@ import {TodoModel} from '../../models/todo.model';
     template: `
         <li [class.completed]="todo.completed">
             <div class="view">
-                <input class="toggle" type="checkbox" [checked]="todo.completed">
+                <input class="toggle" type="checkbox" (click)="toggleCompletion()" [checked]="todo.completed">
                 <label>{{ todo.title }}</label>
             </div>
         </li>
@@ -17,4 +17,7 @@ export class TodoItemComponent {
     @Input()
     todo:TodoModel;
     
+    toggleCompletion() {
+        this.todo.completed = !this.todo.completed;
+    }
 }
