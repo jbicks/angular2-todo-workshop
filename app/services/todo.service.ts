@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {TodoModel} from '../models/todo.model';
+import {TodoFilter} from '../enums/todo-filter.enum';
 
 @Injectable()
 export class TodoService {
@@ -22,8 +23,15 @@ export class TodoService {
         }
     ];
     
-    getTodos(): TodoModel[] {
-        return this._todos;
+    getTodos(filter: TodoFilter = null): TodoModel[] {
+        var todos = this._todos;
+        if (filter == TodoFilter.Active) {
+            todos = todos.filter(t => !t.completed);
+        }
+        else if (filter == TodoFilter.Completed) {
+            todos = todos.filter(t => t.completed);
+        }
+        return todos;
     }
     
     addTodo(title: string) {

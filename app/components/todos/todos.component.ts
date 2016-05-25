@@ -3,6 +3,8 @@ import {TodoModel} from '../../models/todo.model';
 import {TodoItemComponent} from '../todo-item/todo-item.component';
 import {TodoService} from '../../services/todo.service';
 import {TodoHeaderComponent} from '../todo-header/todo-header.component';
+import {TodoFilter} from '../../enums/todo-filter.enum';
+import {TodoFooterComponent} from '../todo-footer/todo-footer.component';
 
 @Component({
     selector: 'todos',
@@ -14,33 +16,31 @@ import {TodoHeaderComponent} from '../todo-header/todo-header.component';
                 <todo-item *ngFor="let todo of getTodos()" [todo]="todo"></todo-item>
             </ul>
         </section>
-        <footer class="footer" *ngIf="count">
-            <ul class="filters">
-                <li>
-                    <a href="#">All</a>
-                </li>
-                <li>
-                    <a href="#">Active</a>
-                </li>
-                <li>
-                    <a href="#">Completed</a>
-                </li>
-            </ul>
-        </footer>
+        <todo-footer *ngIf="hasTodos()" [filter]="filter" (filter-changed)="setFilter($event)"></todo-footer>
     </section>
     `,
-    directives:[TodoItemComponent, TodoHeaderComponent]
+    directives:[TodoItemComponent, TodoHeaderComponent, TodoFooterComponent]
 })
 export class TodosComponent {
+    
+    filter:TodoFilter = TodoFilter.All;
     
     constructor (private _todoService:TodoService) {
     }
     
     getTodos():TodoModel[] {
-        return this._todoService.getTodos();
+        return this._todoService.getTodos(this.filter);
     }
     
     add(title:string) {
         this._todoService.addTodo(title);
+    }
+    
+    hasTodos():boolean {
+        return this._todoService.getTodos().length > 0;
+    }
+    
+    setFilter(filter:TodoFilter) {
+        this.filter = filter;
     }
 }
