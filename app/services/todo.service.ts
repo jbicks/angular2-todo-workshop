@@ -38,4 +38,10 @@ export class TodoService {
         var todo = new TodoModel(title);
         this._todos.push(todo);
     }
+    
+    removeTodo(todo: TodoModel) {
+        var todos = this._todos;
+        var todo = todos.find(t => t.id == todo.id);
+        todos.splice(todos.indexOf(todo), 1);
+    }
 }

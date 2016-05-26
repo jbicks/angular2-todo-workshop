@@ -13,7 +13,7 @@ import {TodoFooterComponent} from '../todo-footer/todo-footer.component';
         <todo-header (todo-added)="add($event)"></todo-header>
         <section class="main">
             <ul class="todo-list">
-                <todo-item *ngFor="let todo of getTodos()" [todo]="todo"></todo-item>
+                <todo-item *ngFor="let todo of getTodos()" [todo]="todo" (removed)="remove(todo)"></todo-item>
             </ul>
         </section>
         <todo-footer *ngIf="hasTodos()" [filter]="filter" (filter-changed)="setFilter($event)"></todo-footer>
@@ -42,5 +42,9 @@ export class TodosComponent {
     
     setFilter(filter:TodoFilter) {
         this.filter = filter;
+    }
+    
+    remove (todo:TodoModel) {
+        this._todoService.removeTodo(todo);
     }
 }
